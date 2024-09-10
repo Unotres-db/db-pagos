@@ -13,7 +13,7 @@ const routes = require('./routes');
 const app = express();
 
 // const allowedOrigins = ['https://www.valuationshub.com','https://valuationshub.com', 'https://valuationshub.onrender.com','http://localhost:3000'];
-const allowedOrigins = ['http://localhost:3000'];
+const allowedOrigins = ['http://localhost:3000','https://web-pagos.onrender.com'];
 
 const corsOptions = {
   origin: function (origin, callback) {
