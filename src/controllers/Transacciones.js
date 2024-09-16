@@ -55,6 +55,8 @@ module.exports = {
         if (!transaccionesProyecto) {
           return res.status(404).json({ error: "Transacciones de este Proyecto no fueron encontradas" });
         }
+        console.log("enviando os dados")
+        // console.log(transaccionesProyecto)
         return res.status(200).json(transaccionesProyecto);
       }
     
