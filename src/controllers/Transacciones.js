@@ -166,9 +166,9 @@ module.exports = {
       const parsedDateInvoice = parse(fechaFactura, 'dd/MM/yyyy', new Date());
       // const invoiceDateMilliseconds = parsedDateInvoice.getTime();
       const invoiceDateTimeStamp = format(parsedDateInvoice, 'yyyy-MM-dd HH:mm:ss');
-      const parsedDatePayment = parse(fechaPago, 'dd/MM/yyyy', new Date());
+      const parsedDatePayment = fechaPago? parse(fechaPago, 'dd/MM/yyyy', new Date()):null;
       // const paymentDateMilliseconds = parsedDatePayment.getTime();
-      const paymentDateTimeStamp = format(parsedDatePayment, 'yyyy-MM-dd HH:mm:ss');
+      const paymentDateTimeStamp =  fechaPago? format(parsedDatePayment, 'yyyy-MM-dd HH:mm:ss'):null;
       // console.log("invoiceDateMilliseconds: " + invoiceDateMilliseconds)
       // console.log("paymentDateMilliseconds: " + paymentDateMilliseconds)
 
@@ -247,18 +247,20 @@ module.exports = {
 async delete (req, res, next) {
   try {
     const idTransaccion  = req.params.id
-    console.log("idTransaccion: "+ idTransaccion) 
+    console.log("Deletion idTransaccion: "+ idTransaccion) 
     if ( idTransaccion ) {
       const deletion = await connection ('transacciones')
       .where('id_transaccion','=',idTransaccion)
       .del()
       if (deletion) {
+        console.log("transaccion eliminada con exito")
         return res.status(200).json({idTransaccion});
       }
+      console.log("Transaccion no encontrada")
       return res.status(404).json({error:"Transaccion no encontrada"});
     } 
   } catch (error) {
-      console.log(error)
+      console.log("error en eliminacion de transaccion: " + error)
       next (error);
     }
 },
