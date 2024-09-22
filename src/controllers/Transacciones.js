@@ -161,8 +161,8 @@ module.exports = {
         idTipoPago,
         idTipoFlujo,
       } = req.body;
-      console.log("fechaFactura: "+fechaFactura)
-      console.log("fechaPago: "+fechaPago)
+      // console.log("fechaFactura: "+fechaFactura)
+      // console.log("fechaPago: "+fechaPago)
       const parsedDateInvoice = parse(fechaFactura, 'dd/MM/yyyy', new Date());
       // const invoiceDateMilliseconds = parsedDateInvoice.getTime();
       const invoiceDateTimeStamp = format(parsedDateInvoice, 'yyyy-MM-dd HH:mm:ss');
@@ -218,6 +218,10 @@ module.exports = {
         idTipoFlujo,
 
       } = req.body;
+      const parsedDateInvoice = parse(fechaFactura, 'dd/MM/yyyy', new Date());
+      const invoiceDateTimeStamp = format(parsedDateInvoice, 'yyyy-MM-dd HH:mm:ss');
+      const parsedDatePayment = fechaPago? parse(fechaPago, 'dd/MM/yyyy', new Date()):null;
+      const paymentDateTimeStamp =  fechaPago? format(parsedDatePayment, 'yyyy-MM-dd HH:mm:ss'):null;
 
       const hoy = fns.format(new Date(),"yyyy-MM-dd HH:mm:ss");
       await connection ('transacciones')
@@ -228,11 +232,11 @@ module.exports = {
           id_tipo_transaccion : idTipoTransaccion,
           descripcion : descripcion,
           numero_factura : numeroFactura,
-          fecha_factura : fechaFactura,
+          fecha_factura : invoiceDateTimeStamp,
           timbrado_factura : timbradoFactura,
           monto_factura : montoFactura,
           comprobante_pago : comprobantePago,
-          fecha_pago : fechaPago,
+          fecha_pago : paymentDateTimeStamp,
           id_tipo_pago : idTipoPago,
           id_tipo_Flujo : idTipoFlujo,
           actualizado : hoy

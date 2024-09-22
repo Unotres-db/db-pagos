@@ -12,6 +12,7 @@ const Reset = require('./controllers/Reset')
 const Users = require('./controllers/Users');
 
 routes.post ('/logout', Logout.create);
+
 routes.get ('/proyectos/:id?', Proyectos.index);
 routes.post ('/proyectos', Proyectos.create);
 routes.post ('/proyectos-bulk', Proyectos.createBulk);
@@ -31,6 +32,7 @@ routes.post ('/session', Session.create);
 routes.get ('/transacciones/:id?', Transacciones.index);
 routes.post ('/transacciones', Transacciones.create);
 routes.post ('/transacciones-bulk', Transacciones.createBulk);
+routes.put ('/transacciones', Transacciones.create);
 routes.delete ('/transacciones/:id?', Transacciones.delete);
 routes.delete ('/transacciones-all', Transacciones.deleteAllRecordsFromTransacciones);
 
