@@ -43,8 +43,10 @@ module.exports = {
             "transacciones.id_tipo_Flujo as idTipoFlujo",
             "transacciones.creado as creado",
             "transacciones.actualizado as actualizado",
+            "rubros.id_rubro as idRubro",
             "rubros.nombre as rubro",
-            "proveedores.nombre as proveedor"
+            "proveedores.id_proveedor as idProveedor",
+            "proveedores.nombre as proveedor",
           )
           .where("id_proyecto", idProyecto)
           // .where("id_transaccion", idTransaccion)
@@ -71,7 +73,6 @@ module.exports = {
           "transacciones.descripcion as descripcion",
           "transacciones.numero_factura as numeroFactura",
           // "transacciones.fecha_factura as fechaFactura",
-
           connection.raw(`to_char(transacciones.fecha_factura, 'DD/MM/YYYY') as fechaFactura`),
           "transacciones.timbrado_factura as timbradoFactura",
           "transacciones.monto_factura as montoFactura",
@@ -82,8 +83,10 @@ module.exports = {
           "transacciones.id_tipo_Flujo as idTipoFlujo",
           "transacciones.creado as creado",
           "transacciones.actualizado as actualizado",
+          "rubros.id_rubro as idRubro",
           "rubros.nombre as rubro",
-          // "rubros.nombre as label",
+          // "rubros.nombre as label",""
+          "proveedores.id_proveedor as idProveedor",
           "proveedores.nombre as proveedor"
         )
         .orderBy("transacciones.fecha_factura", 'desc') // Specify transacciones.id_proyecto and transacciones.fecha_factura

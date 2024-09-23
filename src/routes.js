@@ -10,6 +10,9 @@ const TestDates = require('./controllers/TestDates');
 const Transacciones = require('./controllers/Transacciones');
 const Reset = require('./controllers/Reset')
 const Users = require('./controllers/Users');
+const Invoice = require('./controllers/Invoice');
+
+routes.get ('/factura', Invoice.index);
 
 routes.post ('/logout', Logout.create);
 
