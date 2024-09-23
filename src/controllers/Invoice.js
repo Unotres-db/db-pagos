@@ -3,12 +3,11 @@ const connection = require ('../database/connection');
 module.exports = {
 
   async index (req, res, next) {
-    const { id_proveedor, numeroFactura } = req.query;
+    const { id_proveedor, numero_factura } = req.query;
 
     try {
-      const existingInvoice = await connection('transaciones')
-        .where({ id_proveedor, numeroFactura })
-        .count('id_transaccion as count')
+      const existingInvoice = await connection('transacciones')
+        .where({ id_proveedor, numero_factura })
         .first();
 
       if (existingInvoice.count > 0) {
