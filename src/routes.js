@@ -21,7 +21,9 @@ routes.post ('/proyectos', Proyectos.create);
 routes.post ('/proyectos-bulk', Proyectos.createBulk);
 
 routes.get ('/proveedores/:id?', Proveedores.index);
+routes.post ('/proveedores', Proveedores.create);
 routes.post ('/proveedores-bulk', Proveedores.createBulk);
+routes.delete ('/proveedores/:id?', Proveedores.delete);
 
 routes.post ('/reset-email', Reset.create);
 // routes.post ('/code-by-email', CodeByEmailController.create);
@@ -35,7 +37,7 @@ routes.post ('/session', Session.create);
 routes.get ('/transacciones/:id?', Transacciones.index);
 routes.post ('/transacciones', Transacciones.create);
 routes.post ('/transacciones-bulk', Transacciones.createBulk);
-routes.put ('/transacciones', Transacciones.create);
+routes.put ('/transacciones', Transacciones.update);
 routes.delete ('/transacciones/:id?', Transacciones.delete);
 routes.delete ('/transacciones-all', Transacciones.deleteAllRecordsFromTransacciones);
 

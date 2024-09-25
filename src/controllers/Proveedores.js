@@ -95,6 +95,7 @@ module.exports = {
 
   async create (req, res, next) {
     try {
+      console.log("entrou em create-proveedor")
       const {
         idProveedor,
         nombre,
@@ -107,7 +108,7 @@ module.exports = {
         web,
         idRubro
       } = req.body;
-
+      console.log(idProveedor,nombre)
       await connection ('proveedores')
         .insert({
           id_proveedor : idProveedor,
@@ -121,9 +122,10 @@ module.exports = {
           web : web,
           id_rubro : idRubro
         });
-      
+      console.log("incluiu proveedor")
       return res.status(200).json({nombre});
     } catch (error) {
+      console.log(error)
         next (error);
     }
   },
@@ -162,5 +164,27 @@ module.exports = {
         next (error);
     }
 },
+
+async delete (req, res, next) {
+  try {
+    const idProveedor  = req.params.id
+    console.log("Deletion Proveedor: "+ idProveedor) 
+    if ( idProveedor ) {
+      const deletion = await connection ('proveedores')
+      .where('id_proveedor','=',idProveedor)
+      .del()
+      if (deletion) {
+        console.log("Proveedor eliminado con exito")
+        return res.status(200).json({idProveedor});
+      }
+      console.log("Proveedor no encontrado")
+      return res.status(404).json({error:"Proveedor no encontrado"});
+    } 
+  } catch (error) {
+      console.log("error en eliminacion de Proveedor: " + error)
+      next (error);
+    }
+},
+
 }
 

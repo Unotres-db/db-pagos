@@ -204,6 +204,7 @@ module.exports = {
 
   async update (req, res, next) {
     try {
+      console.log("Entro en update")
       const {  
         idTransaccion,
         idProyecto,
@@ -221,11 +222,11 @@ module.exports = {
         idTipoFlujo,
 
       } = req.body;
+      console.log("req body: " + idTransaccion)
       const parsedDateInvoice = parse(fechaFactura, 'dd/MM/yyyy', new Date());
       const invoiceDateTimeStamp = format(parsedDateInvoice, 'yyyy-MM-dd HH:mm:ss');
       const parsedDatePayment = fechaPago? parse(fechaPago, 'dd/MM/yyyy', new Date()):null;
       const paymentDateTimeStamp =  fechaPago? format(parsedDatePayment, 'yyyy-MM-dd HH:mm:ss'):null;
-
       const hoy = fns.format(new Date(),"yyyy-MM-dd HH:mm:ss");
       await connection ('transacciones')
         .update({
@@ -245,8 +246,10 @@ module.exports = {
           actualizado : hoy
         })
         .where ('id_transaccion',idTransaccion);//
+      console.log(idTransaccion +"  fue alterado")  
       return res.status(200).json({idTransaccion});
     } catch (error) {
+      console.log(error)
         next (error);
     }
 },
