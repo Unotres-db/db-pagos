@@ -1,5 +1,6 @@
 const connection = require ('../database/connection');
-const fns = require('date-fns')
+const fns = require('date-fns');
+const crypto = require ('crypto');
 
 module.exports = {
 
@@ -108,10 +109,11 @@ module.exports = {
         web,
         idRubro
       } = req.body;
-      console.log(idProveedor,nombre)
+      const hashedId = crypto.randomBytes(4).toString('HEX')
+      console.log(idProveedor,nombre, ruc)
       await connection ('proveedores')
         .insert({
-          id_proveedor : idProveedor,
+          id_proveedor : idProveedor? idProveedor:hashedId,
           nombre : nombre,
           razon_social : razonSocial,
           ruc : ruc,
@@ -122,8 +124,8 @@ module.exports = {
           web : web,
           id_rubro : idRubro
         });
-      console.log("incluiu proveedor")
-      return res.status(200).json({nombre});
+      console.log("incluiu proveedor: "+ nombre + " idProveedor"+idProveedor)
+      return res.status(200).json({id:hashedId});
     } catch (error) {
       console.log(error)
         next (error);
@@ -186,5 +188,15 @@ async delete (req, res, next) {
     }
 },
 
+
+async deleteAllRecordsFromProveedores(req, res, next) {
+  try {
+    await connection('proveedores').del();
+    console.log('All records deleted from proveedores table.');
+    return res.status(200).json({message:"Proveedores eliminados con exito"});
+  } catch (error) {
+    console.error('Error deleting records:', error);
+  }
+}
 }
 

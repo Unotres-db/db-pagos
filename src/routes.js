@@ -24,6 +24,7 @@ routes.get ('/proveedores/:id?', Proveedores.index);
 routes.post ('/proveedores', Proveedores.create);
 routes.post ('/proveedores-bulk', Proveedores.createBulk);
 routes.delete ('/proveedores/:id?', Proveedores.delete);
+routes.delete ('/proveedores-all', Proveedores.deleteAllRecordsFromProveedores);
 
 routes.post ('/reset-email', Reset.create);
 // routes.post ('/code-by-email', CodeByEmailController.create);

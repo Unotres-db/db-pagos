@@ -12,6 +12,15 @@ function convertToFormattedTimestamp(milliseconds) {
   return formattedTimeStamp;
 }
 
+function convertToFormattedTime(dateString) {
+  if (dateString===""){
+    return null
+  }
+  const date = new Date(dateString);
+  const formattedTime = format(date, 'yyyy-MM-dd HH:mm:ss');
+  return formattedTime;
+}
+
 module.exports = {
 
   async index (req, res, next) {
@@ -105,18 +114,19 @@ module.exports = {
 // "transacciones.id_proyecto", 
 
   async createBulk(req, res, next) {
-    // console.log("Entered createBulk Transacciones");
+    console.log("Entered createBulk Transacciones");
     try {
 
-      const { vdbData } = require('./vdb'); // Assuming vdb.js is in the same directory
+      // const { vdbData } = require('./vdb'); 
+      const { tkdData } = require('./3kd'); // Assuming vdb.js is in the same directory
 
       // Check if vdbData is an array
-      if (!Array.isArray(vdbData)) {
+      if (!Array.isArray(tkdData)) {
         return res.status(400).json({ error: "Data Invalida. Se espera un vector" });
       }
   
       const hoy = fns.format(new Date(), "yyyy-MM-dd HH:mm:ss");
-      const transaccionAInsertar = vdbData.map((data) => ({
+      const transaccionAInsertar = tkdData.map((data) => ({
         id_transaccion: crypto.randomBytes(4).toString('HEX'),
         id_proyecto: data.idProyecto,
         id_proveedor: data.idProveedor,
@@ -124,11 +134,14 @@ module.exports = {
         id_tipo_transaccion: data.idTipoTransaccion,
         descripcion: data.descripcion,
         numero_factura: data.numeroFactura,
-        fecha_factura: convertToFormattedTimestamp(data.fechaFactura),
+        fecha_factura: data.fechaFactura? convertToFormattedTimestamp(data.fechaFactura):null,
+        // fecha_factura: data.fechaFactura),
+        // convertToFormattedTime
         timbrado_factura: data.timbradoFactura,
         monto_factura: data.montoFactura,
         comprobante_pago: data.comprobantePago,
-        fecha_pago: convertToFormattedTimestamp(data.fechaPago),
+        // fecha_pago: convertToFormattedTimestamp(data.fechaPago),
+        fecha_pago: data.fechaPago? convertToFormattedTime(data.fechaPago): null,
         id_tipo_pago: data.idTipoPago,
         id_tipo_Flujo: data.idTipoFlujo,
         creado: hoy,
@@ -166,9 +179,9 @@ module.exports = {
       } = req.body;
       // console.log("fechaFactura: "+fechaFactura)
       // console.log("fechaPago: "+fechaPago)
-      const parsedDateInvoice = parse(fechaFactura, 'dd/MM/yyyy', new Date());
+      const parsedDateInvoice = fechaFactura? parse(fechaFactura, 'dd/MM/yyyy', new Date()):null;
       // const invoiceDateMilliseconds = parsedDateInvoice.getTime();
-      const invoiceDateTimeStamp = format(parsedDateInvoice, 'yyyy-MM-dd HH:mm:ss');
+      const invoiceDateTimeStamp = fechaFactura? format(parsedDateInvoice, 'yyyy-MM-dd HH:mm:ss'):null;
       const parsedDatePayment = fechaPago? parse(fechaPago, 'dd/MM/yyyy', new Date()):null;
       // const paymentDateMilliseconds = parsedDatePayment.getTime();
       const paymentDateTimeStamp =  fechaPago? format(parsedDatePayment, 'yyyy-MM-dd HH:mm:ss'):null;
@@ -223,8 +236,8 @@ module.exports = {
 
       } = req.body;
       console.log("req body: " + idTransaccion)
-      const parsedDateInvoice = parse(fechaFactura, 'dd/MM/yyyy', new Date());
-      const invoiceDateTimeStamp = format(parsedDateInvoice, 'yyyy-MM-dd HH:mm:ss');
+      const parsedDateInvoice = fechaFactura? parse(fechaFactura, 'dd/MM/yyyy', new Date()):null;
+      const invoiceDateTimeStamp = fechaFactura? format(parsedDateInvoice, 'yyyy-MM-dd HH:mm:ss'):null;
       const parsedDatePayment = fechaPago? parse(fechaPago, 'dd/MM/yyyy', new Date()):null;
       const paymentDateTimeStamp =  fechaPago? format(parsedDatePayment, 'yyyy-MM-dd HH:mm:ss'):null;
       const hoy = fns.format(new Date(),"yyyy-MM-dd HH:mm:ss");
