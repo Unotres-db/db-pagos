@@ -113,4 +113,15 @@ module.exports = {
         next (error);
     }
 },
+
+async deleteAllRecordsFromRubros(req, res, next) {
+  try {
+    await connection('rubros').del();
+    console.log('All records deleted from rubros table');
+    return res.status(200).json({message:"Rubros eliminados con exito"});
+  } catch (error) {
+    console.error('Error deleting records:', error);
+  }
+}
+
 }

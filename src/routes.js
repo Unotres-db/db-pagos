@@ -10,7 +10,7 @@ const TestDates = require('./controllers/TestDates');
 const Transacciones = require('./controllers/Transacciones');
 const Reset = require('./controllers/Reset')
 const Users = require('./controllers/Users');
-const Invoice = require('./controllers/Invoice');
+const Invoice = require('./controllers/Invoice')
 
 routes.get ('/factura', Invoice.index);
 
@@ -32,6 +32,7 @@ routes.post ('/reset-email', Reset.create);
 routes.get ('/rubros/:id?', Rubros.index);
 routes.post ('/rubros', Rubros.create);
 routes.post ('/rubros-bulk', Rubros.createBulk);
+routes.delete ('/rubros-all', Rubros.deleteAllRecordsFromRubros);
 
 routes.post ('/session', Session.create);
 
