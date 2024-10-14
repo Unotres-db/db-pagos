@@ -68,7 +68,6 @@ module.exports = {
   },
 
   async create (req, res, next) {
-    console.log("entro en create user")
     try {
       const {
         id,
@@ -84,16 +83,13 @@ module.exports = {
         country,
         city,
       } = req.body;
-      console.log(req.body)
-
       if ( id ){
         const user = await connection ('users').select('*').where('id',id).first();
         if ( user) {
-          return res.status(409).json({ error: 'This user is already registered'});
+          return res.status(409).json({ error: 'Este usuario ya esta catastrado'});
         }
       } 
       const hashedPassword = await bcrypt.hash(password, 10);
-      console.log(hashedPassword)
       await connection ('users').insert({
         id: id,
         password: hashedPassword,
@@ -114,26 +110,18 @@ module.exports = {
       }
   },
 
-  // rever como fazer com snake_case x camel_case, somente os campos que foram mofificados
   async update (req, res, next) {
-    // console.log("entrou em update user");
     const updateDate = fns.format(new Date(),'yyyy-MM-dd HH:mm:ss')
     try {
-      console.log(req.body);
       const { id,...updatedFields } = req.body;
       const snakeCaseData =convertKeysToSnakeCase( updatedFields);
       const updatedData = {...snakeCaseData, updated_at:updateDate};
-      console.log(updatedData)
       const result = await connection ('users')
         .update(updatedData)
         .where ('id',id);
       if (result === 1) {
-        console.log("success")
-        // Successfully updated one record
         return res.status(200).json(updatedData);
       } else {
-        // console.log("some error")
-        // No record was updated, handle this scenario as needed
         console.log("Error in update")
         return res.status(404).json({ error: "Error in update" });
       }
@@ -146,17 +134,13 @@ module.exports = {
   async delete (req, res, next) {
     try {
       const id = req.params.id;
-      console.log("deleting user: " + id)
-      // const userId = request.headers.authorization;
       if ( id ) {
         const deletion = await connection ('users')
         .where('users.id','=',id)
         .del()
         if (deletion) {
-          console.log("Usuario borrado con exito de la base de datos")
           return res.status(200).json({id});
         }
-        console.log("user not deleted")
         return res.status(404).json({error:"Usuario no encontrado"});
       } 
     } catch (error) {
