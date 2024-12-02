@@ -3,14 +3,14 @@ const fns = require('date-fns');
 const { format, parse } = require('date-fns');
 const crypto = require ('crypto');
 
-function convertToFormattedTimestamp(milliseconds) {
-  if (milliseconds===""){
-    return ""
-  }
-  const date = new Date(milliseconds);
-  const formattedTimeStamp = format(date, 'yyyy-MM-dd HH:mm:ss');
-  return formattedTimeStamp;
-}
+// function convertToFormattedTime(milliseconds) {
+//   if (milliseconds===""){
+//     return ""
+//   }
+//   const date = new Date(milliseconds);
+//   const formattedTimeStamp = format(date, 'yyyy-MM-dd HH:mm:ss');
+//   return formattedTimeStamp;
+// }
 
 function convertToFormattedTime(dateString) {
   if (dateString===""){
@@ -59,7 +59,8 @@ module.exports = {
           )
           .where("id_proyecto", idProyecto)
           // .where("id_transaccion", idTransaccion)
-          .orderBy("transacciones.fecha_factura", 'desc') // Specify transacciones.id_proveedor
+          // "transacciones.fecha_factura"
+          .orderBy("transacciones.creado", 'asc') // Specify transacciones.id_proveedor
           .join("rubros", "rubros.id_rubro", "=", "transacciones.id_rubro")
           .join("proveedores", "proveedores.id_proveedor", "=", "transacciones.id_proveedor");
     
@@ -134,14 +135,17 @@ module.exports = {
         id_tipo_transaccion: data.idTipoTransaccion,
         descripcion: data.descripcion,
         numero_factura: data.numeroFactura,
-        fecha_factura: data.fechaFactura? convertToFormattedTimestamp(data.fechaFactura):null,
+        // fecha_factura: data.fechaFactura? convertToFormattedTime(data.fechaFactura):null,
+        fecha_factura: data.fechaFactura? data.fechaFactura:null,
+
         // fecha_factura: data.fechaFactura),
         // convertToFormattedTime
         timbrado_factura: data.timbradoFactura,
         monto_factura: data.montoFactura,
         comprobante_pago: data.comprobantePago,
         // fecha_pago: convertToFormattedTimestamp(data.fechaPago),
-        fecha_pago: data.fechaPago? convertToFormattedTime(data.fechaPago): null,
+        // fecha_pago: data.fechaPago? convertToFormattedTime(data.fechaPago): null,
+        fecha_pago: data.fechaPago? data.fechaPago: null,
         id_tipo_pago: data.idTipoPago,
         id_tipo_Flujo: data.idTipoFlujo,
         creado: hoy,
