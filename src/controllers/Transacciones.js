@@ -217,6 +217,28 @@ module.exports = {
     }
   },
 
+  async updateDate(req, res, next){
+    const hoy = fns.format(new Date(),"yyyy-MM-dd HH:mm:ss");
+    try {
+      console.log("Entrou em updateDate")
+      const {  
+        idTransaccion,
+        fechaPago,
+      } = req.body;
+      await connection ('transacciones')
+        .update({
+          fecha_factura : fechaPago,
+          actualizado : hoy
+        })
+        .where ('id_transaccion',idTransaccion);//
+      console.log(idTransaccion +"  fue alterado")  
+      return res.status(200).json({idTransaccion});
+    } catch (error) {
+      console.log(error)
+        next (error);
+    }
+},
+
   async update (req, res, next) {
     try {
       console.log("Entro en update")

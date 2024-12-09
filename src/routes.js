@@ -40,6 +40,7 @@ routes.get ('/transacciones/:id?', Transacciones.index);
 routes.post ('/transacciones', Transacciones.create);
 routes.post ('/transacciones-bulk', Transacciones.createBulk);
 routes.put ('/transacciones', Transacciones.update);
+routes.put ('/transacciones-date', Transacciones.updateDate);
 routes.delete ('/transacciones/:id?', Transacciones.delete);
 routes.delete ('/transacciones-all', Transacciones.deleteAllRecordsFromTransacciones);
 
